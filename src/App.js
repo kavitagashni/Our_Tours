@@ -1,27 +1,30 @@
 import './App.css';
-import TourData from './Data.json'
-import './component/Card'
-import Card from './component/Card';
+import TourData from './Data.json';
 import { useState } from 'react';
+import Tours from './component/Tours';
 
 function App() {
+
   const [data, setData] = useState(TourData);
 
-
-  function ClickOnNotInterested(id) {
-    const checkList = data.filter((element, index) => {
-      return id !== index
+  function ClickOnNotInterested(index) {
+    setData((item) => {
+      return item.filter((_, currentindex) => index !== currentindex );
     })
-    setData(checkList);
   }
-
 
 
   return (
     <div className="App">
       <h1>Our Tours</h1>
       <hr />
-      <Card data={data} ClickOnNotInterested={ClickOnNotInterested} />
+      <div className='box'>
+        {data?.map((tour, index) => {
+          return <Tours key={tour.id} {...tour} index={index} ClickOnNotInterested={ClickOnNotInterested} />;
+        })}
+      </div>
+
+
     </div>
   );
 }
